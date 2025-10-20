@@ -3,7 +3,7 @@
 //   sendEmailVerification,
 //   updateProfile,
 // } from "firebase/auth";
-import React, { use, useState } from "react";
+import React, { use } from "react";
 // import { auth } from "../../firebase/firebase.init";
 import { Link } from "react-router";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
