@@ -1,9 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AuthContext } from './AuthContext/AuthContext';
-import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { auth } from '../firebase/firebase.init';
 
 const AuthProvider = ({children}) => {
+    const [user, setUser] = useState(null)
+
 
     const createUser = (email, password) => {
         return createUserWithEmailAndPassword(auth, email, password)
@@ -11,6 +13,10 @@ const AuthProvider = ({children}) => {
 
     const signInUser = (email, password) => {
         return signInWithEmailAndPassword(auth, email,  password)
+    }
+
+    const signOutUser = () => {
+        return signOut(auth)
     }
 
     // useEffect(() => {}, [])
@@ -33,10 +39,14 @@ const AuthProvider = ({children}) => {
     // },[])
 
 
+    //useEffect bujlam bairer bisoy handle kore, kintu ekane kibave bairer bisoy handle kortese bujiye diba?
+    
+    
     useEffect( () => {
         //set the observer
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
             console.log('currentUser in the state change: ', currentUser);
+            setUser(currentUser)
         })
 
         // clean the observe 
@@ -47,8 +57,10 @@ const AuthProvider = ({children}) => {
 
 
     const authInfo = {
+        user,
         createUser,
         signInUser,
+        signOutUser,
     }
 
     return (

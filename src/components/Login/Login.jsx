@@ -2,30 +2,23 @@ import React, { use } from "react";
 import { Link } from "react-router";
 import { AuthContext } from "../../context/AuthContext/AuthContext";
 
-
-
-
 const Login = () => {
-const {signInUser} = use(AuthContext)
+  const { signInUser } = use(AuthContext);
 
-
-
-
-
-const handleLogIn = e => {
+  const handleSignInUser = (e) => {
     e.preventDefault();
     const email = e.target.email.value;
-    const password = e.target.email.value;
-  
-    signInUser(email, password)
-    .then(result => {
-      console.log(result.user);
-    })
-    .catch(err => {
-      console.log(err.message);
-    })
-}
+    const password = e.target.password.value;
 
+    signInUser(email, password)
+      .then((result) => {
+        console.log(result.user);
+        e.target.reset();
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  };
 
   return (
     <div className="hero bg-base-200 min-h-screen">
@@ -35,7 +28,7 @@ const handleLogIn = e => {
         </div>
         <div className="card bg-base-100 w-full min-w-sm shrink-0 shadow-2xl">
           <div className="card-body">
-            <form onSubmit={handleLogIn}>
+            <form onSubmit={handleSignInUser}>
               <fieldset className="fieldset">
                 {/* Email */}
                 <label className="label">Email</label>
@@ -58,7 +51,12 @@ const handleLogIn = e => {
                 </div>
                 <button className="btn btn-neutral mt-4">Login</button>
               </fieldset>
-              <p>New to here? Please <Link className="text-blue-500 underline" to='/register'>Register</Link></p>
+              <p>
+                New to here? Please{" "}
+                <Link className="text-blue-500 underline" to="/register">
+                  Register
+                </Link>
+              </p>
             </form>
           </div>
         </div>
