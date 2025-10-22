@@ -42,15 +42,17 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: 'dashboard',
-        element: <Dashboard></Dashboard>
-      }
+        path: "dashboard",
+        element: (
+          <PrivetRoute>
+            <Dashboard></Dashboard>
+          </PrivetRoute>
+        ),
+      },
     ],
   },
 ]);
 
 export default router;
 
-// git add . 
-// git commit -m "dashboard" 
-// git push
+

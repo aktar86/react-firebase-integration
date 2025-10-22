@@ -1,10 +1,16 @@
 import React, { use } from "react";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { AuthContext } from "../../context/AuthContext/AuthContext";
 
 const Login = () => {
-  const { signInUser } = use(AuthContext);
 
+  
+  const { signInUser, signInWithGoogle } = use(AuthContext);
+  const location = useLocation();
+  const navigate = useNavigate();
+
+
+  // sign in with email and password
   const handleSignInUser = (e) => {
     e.preventDefault();
     const email = e.target.email.value;
@@ -14,9 +20,23 @@ const Login = () => {
       .then((result) => {
         console.log(result.user);
         e.target.reset();
+        navigate(location?.state || "/");
       })
       .catch((err) => {
         console.log(err.message);
+      });
+  };
+
+  // sign in with google 
+  const handleGoogleSignInUser = () => {
+    signInWithGoogle()
+      .then((result) => {
+        console.log(result.user);
+        navigate(location.state || "/");
+      })
+      .catch((error) => {
+        console.log(error);
+        
       });
   };
 
@@ -57,6 +77,13 @@ const Login = () => {
                   Register
                 </Link>
               </p>
+
+              <button
+                onClick={handleGoogleSignInUser}
+                className="btn w-full bg-white text-black"
+              >
+                sign in with google
+              </button>
             </form>
           </div>
         </div>
@@ -66,3 +93,22 @@ const Login = () => {
 };
 
 export default Login;
+
+/**
+ * == in the PrivetRoute ==
+ * useLocation
+ * state={location?.pathname}  in the navigate link
+ */
+
+/**
+ * ==In the login page==
+ * going to login page and call again useLocation and set useNavigate
+ * useLocation
+ * useNavigate
+ * state={location?.pathname}
+ *
+ *
+ * navigate will declare in the signInUser Function
+ * navigate(location.state)
+ *
+ */
